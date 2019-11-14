@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>335 Project 2</title>
+  <style type="text/css">
+    body {
+      text-align: center;
+      font-family: sans-serif;
+    }
+    canvas {
+      border: 1px solid black;
+      background: black;
+    }
+  </style>
+</head>
+<body>
+  <h1>Asqwilanga Caverns</h1>
+  <h4>Time-stamp: <2019-10-31 16:36:21 Jeremy Rico></h4>
+  <h4># of times a room is visited : ring color</h4>
+  <h4>1 : white</h4>
+  <h4>2 : blue</h4>
+  <h4>3 : yellow</h4>
+  <h4>4 : green</h4>
+  <h4>5 : red</h4>
+  <h4>6 : lime</h4>
+  <canvas id="canv" width="800" height="600"></canvas>
+
+  <script src = "cavern2.0.js"></script>
+  <script>
+  var canvas = document.getElementById("canv");
+  var context = canvas.getContext("2d");
+
+  window.onload = function( )
+  {
+      let wait = 1000; // Millisecs
+      let stop_cnt = 40; // Stop after this count.
+      let ix = 0; // count.
+      let xpos = 80;
+      let ypos = 80;
+      let currRoom = [15, 0, 0];
+      draw_ring(context, xpos+19, ypos-2, "white");
+      draw_disk(context, xpos+19, ypos-2, "red");
+      log(context, currRoom, 'white', xpos, ypos);
+
+      var seen = new Map();
+      seen.set(hash(currRoom), [xpos+19, ypos-2, 0]);
+      var pos = seen.get(hash(currRoom));
+
+      var timerx = setInterval(
+          function( )
+          {
+              ++ix;
+              currRoom = nextRoom(currRoom);
+              if(!seen.has(hash(currRoom))) {
+                ypos += 200;
+                if (ypos > 600) { xpos += 200; ypos = 80;}
+                draw_ring(context, xpos+19, ypos-2, "white");
+                draw_disk(context, xpos+19, ypos-2, "red");
+                log( context, currRoom, 'white', xpos, ypos);
+                seen.set(hash(currRoom), [xpos+19, ypos-2, 0]);
+              } else {
+                var pos = seen.get(hash(currRoom));
+                if (pos[2] == 0) {
+                  draw_ring(context, pos[0], pos[1], "blue");
+                  ++pos[2];
+                } else if (pos[2] == 1) {
+                  draw_ring(context, pos[0], pos[1], "yellow");
+                  ++pos[2];
+                } else if (pos[2] == 2) {
+                  draw_ring(context, pos[0], pos[1], "green");
+                  ++pos[2];
+                } else if (pos[2] == 3) {
+                  draw_ring(context, pos[0], pos[1], "red");
+                  ++pos[2];
+                } else if (pos[2] == 4) {
+                  draw_ring(context, pos[0], pos[1], "lime");
+                  ++pos[2];
+                }
+              }
+  	    if ( ix > stop_cnt )
+              { clearInterval( timerx ); }
+          }
+          , wait );
+
+  }
+  </script>
+
+</body>
+</html>

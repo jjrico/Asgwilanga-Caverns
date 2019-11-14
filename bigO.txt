@@ -1,0 +1,19 @@
+Project #2 – Asgwilanga Caverns Big O Analysis
+
+Jeremy Rico
+Professor Charles Siska
+335 – 04
+November 14 2019
+
+My algorithm works by holding each of the three values the same and changing
+the other two until a new room is found.
+
+Best case, the algorithm finds a new room while holdiing the first value the same.
+This would be O(N).
+
+Worst case, the algorithm goes through each of the three values in the array and
+finds no new rooms. This causes the algorithm to clear the hash table and begin
+the function again with the first value. This occurs with O(N^3 + N)
+
+Overall my algorithm runs with an average time complexity of O(N^2) because in most
+cases, the algorithm finds a new room on the first try.
